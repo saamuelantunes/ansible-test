@@ -14,10 +14,9 @@
         url: https://github.com/open-telemetry/opentelemetry-collector-releases/releases/latest/download/otelcol_windows_amd64.zip
         dest: C:\otel\otelcol.zip
 
-    - name: Unzip Otel Collector
-      win_unzip:
-        src: C:\otel\otelcol.zip
-        dest: C:\otel
+    - name: Unzip Otel Collector using PowerShell
+      win_command: powershell.exe -Command "Expand-Archive -Path 'C:\\otel\\otelcol.zip' -DestinationPath 'C:\\otel' -Force"
+      args:
         creates: C:\otel\otelcol.exe
 
     - name: Upload config.yaml
