@@ -8,17 +8,7 @@
       win_file:
         path: C:\otel
         state: directory
-
-    - name: Download Otel Collector tar.gz
-      win_get_url:
-        url: https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.123.1/otelcol-contrib_0.123.1_windows_amd64.tar.gz
-        dest: C:\otel\otelcol-contrib.tar.gz
-
-    - name: Extract Otel Collector with tar
-      win_command: powershell.exe -Command "tar -xf 'C:\\otel\\otelcol-contrib.tar.gz' -C 'C:\\otel'"
-      args:
-        creates: C:\otel\otelcol-contrib.exe
-    
+        
     - name: Upload config.yaml
       win_copy:
         dest: C:\otel\config.yaml
