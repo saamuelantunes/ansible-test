@@ -31,7 +31,11 @@
                 exporters: [logging]
 
     - name: Install OpenTelemetry as a service
-      win_command: C:\otel\otelcol-contrib.exe --config C:\otel\config.yaml --service install
+      ansible.windows.win_service:
+        name: opentelemetry
+        path: C:\otel\otelcol-contrib.exe
+        display_name: Open Telemetry Collector
+        description: An Otel service
 
     - name: Start the service
       win_service:
