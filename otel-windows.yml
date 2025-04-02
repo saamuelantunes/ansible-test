@@ -31,7 +31,7 @@
                 exporters: [logging]
 
     - name: Install OpenTelemetry as a service
-      win_command: C:\otel\otelcol.exe --config C:\otel\config.yaml --service install
+      win_command: C:\otel\otelcol-contrib.exe --config C:\otel\config.yaml --service install
 
     - name: Start the service
       win_service:
