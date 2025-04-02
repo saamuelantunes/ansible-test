@@ -1,0 +1,54 @@
+---
+- name: Deploy OpenTelemetry Collector on Windows
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Create folder for Otel Collector
+      win_file:
+        path: C:\otel
+        state: directory
+
+    - name: Download Otel Collector zip
+      win_get_url:
+        url: https://github.com/open-telemetry/opentelemetry-collector-releases/releases/latest/download/otelcol_windows_amd64.zip
+        dest: C:\otel\otelcol.zip
+
+    - name: Unzip Otel Collector
+      win_unzip:
+        src: C:\otel\otelcol.zip
+        dest: C:\otel
+        creates: C:\otel\otelcol.exe
+
+    - name: Upload config.yaml
+      win_copy:
+        dest: C:\otel\config.yaml
+        content: |
+          receivers:
+            hostmetrics:
+              collection_interval: 10s
+              scrapers:
+                cpu:
+                memory:
+
+          exporters:
+            logging:
+              loglevel: debug
+
+          service:
+            pipelines:
+              metrics:
+                receivers: [hostmetrics]
+                exporters: [logging]
+
+    - name: Install OpenTelemetry as a service
+      win_command: |
+        C:\otel\otelcol.exe --config C:\otel\config.yaml --service install
+      args:
+        creates: HKLM:\SYSTEM\CurrentControlSet\Services\otelcol
+
+    - name: Start the service
+      win_service:
+        name: otelcol
+        start_mode: auto
+        state: started
