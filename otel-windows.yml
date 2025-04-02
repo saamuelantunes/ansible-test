@@ -11,7 +11,7 @@
 
     - name: Download Otel Collector zip
       win_get_url:
-        url: https://github.com/open-telemetry/opentelemetry-collector-releases/releases/latest/download/otelcol_windows_amd64.zip
+        url: https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.123.1/otelcol-contrib_0.123.1_windows_amd64.tar.gz
         dest: C:\otel\otelcol.zip
 
     - name: Unzip Otel Collector using PowerShell
